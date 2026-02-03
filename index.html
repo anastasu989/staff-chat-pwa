@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Корпоративный портал</title>
+  <meta charset="UTF-8" />
+  <title>AirCenter Staff</title>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#111827">
+  <meta name="theme-color" content="#000000">
 
   <!-- iOS -->
-  <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="AirCenter Staff">
 
-  <!-- РЕДИРЕКТ НА ГЛАВНУЮ СТРАНИЦУ -->
-  <meta http-equiv="refresh" content="0; url=https://aircenterstaff.tilda.ws/">
+  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
+
 <body>
-  <p style="
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 40px;
-    color: #111827;
-  ">
-    Загрузка корпоративного портала…
-  </p>
+  <h2 style="text-align:center;margin-top:40px">
+    Загрузка приложения…
+  </h2>
 
   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
+    // регистрация service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
     }
+
+    // редирект в Tilda
+    setTimeout(() => {
+      location.href = "https://aircenterstaff.tilda.ws";
+    }, 500);
   </script>
 </body>
 </html>
