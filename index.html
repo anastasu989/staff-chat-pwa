@@ -1,36 +1,45 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <title>AirCenter Staff</title>
+<script type="module">
+  // 🔥 Firebase SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000000">
+  // ⚠️ ТВОЯ конфигурация Firebase
+  const firebaseConfig = {
+   apiKey: "AIzaSyDYjTq4Byv_HvpSymIq7myrdnvSCbetxc8",
+  authDomain: "anastasia-b2c21.firebaseapp.com",
+  projectId: "anastasia-b2c21",
+  storageBucket: "anastasia-b2c21.firebasestorage.app",
+  messagingSenderId: "219596761766",
+  appId: "1:219596761766:web:aecd1431a8741559c3a267",
+  };
 
-  <!-- iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="AirCenter Staff">
+  // 🚀 Инициализация
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
 
-  <link rel="apple-touch-icon" href="icon-192.png">
-</head>
+  // 📌 Регистрация service worker
+  const registration = await navigator.serviceWorker.register("/staff-chat-pwa/service-worker.js");
 
-<body>
-  <h2 style="text-align:center;margin-top:40px">
-    Загрузка приложения…
-  </h2>
+  // 🔑 ТВОЙ VAPID KEY (ТОТ, ЧТО ТЫ СОЗДАЛА)
+  const vapidKey = "ВСТАВЬ_СЮДА_ТВОЙ_VAPID_KEY";
 
-  <script>
-    // регистрация service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
+  // 🔔 Запрос разрешения
+  const permission = await Notification.requestPermission();
+  if (permission === "granted") {
+    const token = await getToken(messaging, {
+      vapidKey,
+      serviceWorkerRegistration: registration
+    });
 
-    // редирект в Tilda
-    setTimeout(() => {
-      location.href = "https://aircenterstaff.tilda.ws";
-    }, 500);
-  </script>
-</body>
-</html>
+    console.log("🔥 FCM TOKEN:", token);
+    alert("Уведомления включены ✅");
+  } else {
+    alert("Уведомления запрещены ❌");
+  }
+
+  // 📩 Уведомления когда сайт открыт
+  onMessage(messaging, (payload) => {
+    console.log("Сообщение получено:", payload);
+    alert(payload.notification.title);
+  });
+</script>
