@@ -1,11 +1,11 @@
-<script type="module">
-  // 🔥 Firebase SDK
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
-  // ⚠️ ТВОЯ конфигурация Firebase
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js";
+
+  // 🔑 ТВОЯ КОНФИГУРАЦИЯ FIREBASE
   const firebaseConfig = {
-   apiKey: "AIzaSyDYjTq4Byv_HvpSymIq7myrdnvSCbetxc8",
+  apiKey: "AIzaSyDYjTq4Byv_HvpSymIq7myrdnvSCbetxc8",
   authDomain: "anastasia-b2c21.firebaseapp.com",
   projectId: "anastasia-b2c21",
   storageBucket: "anastasia-b2c21.firebasestorage.app",
@@ -13,31 +13,29 @@
   appId: "1:219596761766:web:aecd1431a8741559c3a267",
   };
 
-  // 🚀 Инициализация
+  // 1️⃣ Инициализация
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
 
-  // 📌 Регистрация service worker
-  const registration = await navigator.serviceWorker.register("/staff-chat-pwa/service-worker.js");
+  // 2️⃣ Регистрируем service worker
+  const registration = await navigator.serviceWorker.register("/service-worker.js");
 
-  // 🔑 ТВОЙ VAPID KEY (ТОТ, ЧТО ТЫ СОЗДАЛА)
-  const vapidKey = "BPoYE3iTbozRMvvuY9EaruLemKT7BkQ_48Ps0nYCFXIDpkg8hF_ygrWnukcFgDchC2RJfr9fUNIzqcsoyC9o9P4";
-
-  // 🔔 Запрос разрешения
+  // 3️⃣ Запрашиваем разрешение
   const permission = await Notification.requestPermission();
-  if (permission === "granted") {
-    const token = await getToken(messaging, {
-      vapidKey,
-      serviceWorkerRegistration: registration
-    });
-
-    console.log("🔥 FCM TOKEN:", token);
-    alert("Уведомления включены ✅");
-  } else {
-    alert("Уведомления запрещены ❌");
+  if (permission !== "granted") {
+    alert("Уведомления запрещены");
+    return;
   }
 
-  // 📩 Уведомления когда сайт открыт
+  // 4️⃣ Получаем токен
+  const token = await getToken(messaging, {
+    vapidKey: "ВСТАВЬ_VAPID_KEY",
+    serviceWorkerRegistration: registration
+  });
+
+  console.log("FCM TOKEN:", token);
+
+  // 5️⃣ Уведомления при открытом сайте
   onMessage(messaging, (payload) => {
     console.log("Сообщение получено:", payload);
     alert(payload.notification.title);
