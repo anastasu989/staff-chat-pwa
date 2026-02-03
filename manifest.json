@@ -1,10 +1,10 @@
 {
-  "name": "Корпоративный чат",
-  "short_name": "CorpChat",
-  "start_url": "/",
+  "name": "AirCenter Staff",
+  "short_name": "Staff",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#111827",
-  "theme_color": "#111827",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "icon-192.png",
